@@ -1,0 +1,14 @@
+# Use the official Python image as the base image
+FROM python:3
+
+# Set working directory in the container to /app
+WORKDIR /app
+
+# Copy the requirements.txt file to the container
+COPY requirements.txt .
+
+# Install required Python packages from requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./generador_datos/programa/generador /app
+
