@@ -15,7 +15,7 @@ async function apiRegistro() {
             method: "POST",
             headers: myHeaders,
             body: urlencoded,
-            signal: AbortSignal.timeout(10000)
+            signal: AbortSignal.timeout(4000)
         };
         const response = await fetch("http://localhost/api/register", requestOptions);
         if (response.status === 200) {
@@ -40,9 +40,10 @@ async function apiLogin() {
             method: "POST",
             headers: myHeaders,
             body: urlencoded,
-            signal: AbortSignal.timeout(10000)
+            signal: AbortSignal.timeout(4000)
         };
         const response = await fetch("http://localhost/api/login", requestOptions);
+        console.log(response);
         if (response.status === 200) {
             const json = await response.json();
             setCookie("token", json.token, 20);
@@ -60,7 +61,7 @@ async function apiLogout() {
         var requestOptions = {
             method: "POST",
             headers: myHeaders,
-            signal: AbortSignal.timeout(10000)
+            signal: AbortSignal.timeout(4000)
         };
         const response = await fetch("http://localhost/api/logout", requestOptions);
         if (response.status === 200) {
@@ -84,7 +85,7 @@ async function apiPeticiones(empresas, fecha, hora) {
     let requestOptions = {
         method: "GET",
         headers: myHeaders,
-        signal: AbortSignal.timeout(10000)
+        signal: AbortSignal.timeout(4000)
     };
     try {
         const response = await fetch(`http://localhost/api/empresas?${query}`, requestOptions);
