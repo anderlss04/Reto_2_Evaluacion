@@ -1,0 +1,13 @@
+# Use a base image with Apache installed
+FROM httpd:2.4
+
+# Copy the JavaScript file into the container
+COPY ./web/dist /usr/local/apache2/htdocs/
+
+ENV HOST_IP="10.10.17.222"
+
+RUN sed -i "s/localhost/$HOST_IP/g" /usr/local/apache2/htdocs/api.js
+
+EXPOSE 80
+
+CMD ["httpd-foreground"]

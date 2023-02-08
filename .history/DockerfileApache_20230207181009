@@ -1,0 +1,12 @@
+# Use a base image with Apache installed
+FROM httpd:2.4
+
+COPY ./web2.0 /usr/local/apache2/htdocs/
+
+# ENV HOST_IP="192.168.1.141"
+
+# RUN sed -i "s/localhost/$HOST_IP/g" /usr/local/apache2/htdocs/src/js/api.js
+
+EXPOSE 80
+
+CMD ["httpd-foreground"]

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Ibex35" content="width=device-width, initial-scale=1.0">
+    <title>Ibex35</title>
+
+    <link href="../../imagenes/ibex35.png" rel="shortcut icon" />
+
+    <link href="../css/estilo.css" rel="stylesheet">
+
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: calc(100% - 20px);
+        }
+
+        .chartjs-zoom-toolbar {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 1000;
+        }
+    </style>
+
+    <!-- jQuery CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <!-- jQuery UI CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+
+    <!-- jQuery Validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+
+<body>
+
+
+    <div id="root">
+
+        <nav class="bg-gray-800">
+            <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+                <div class="relative flex h-16 items-center justify-between">
+                    <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+
+                        <button type="button"
+                            class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                            aria-controls="mobile-menu" aria-expanded="false">
+
+
+                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+
+                        </button>
+                    </div>
+                    <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                        <div class="flex flex-shrink-0 items-center">
+                            <img class="block h-8 w-auto lg:hidden" src="../../imagenes/ibex35.png" alt="ibex35">
+                            <img class="hidden h-8 w-auto lg:block" src="../../imagenes/ibex35.png" alt="ibex35">
+                        </div>
+                        <div class="hidden sm:ml-6 sm:block">
+                            <div class="flex space-x-4">
+
+                                <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    aria-current="page">Home</a>
+
+                                <a href="#!" id="btnOperar" onclick="extraerEmpresas()"
+                                    class="text-gray-300 hover:bg-teal-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Operar</a>
+
+                                <a href="#" onclick="apiLogout()"
+                                    class="text-gray-300 hover:bg-rose-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                        <button type="button"
+                            class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu movil. -->
+            <div class="sm:hidden" id="mobile-menu">
+                <div class="space-y-1 px-2 pt-2 pb-3">
+
+                    <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+                        aria-current="page">Home</a>
+
+                    <a href="#!" id="btnOperar" onclick="extraerEmpresas()"
+                        class="text-gray-300 hover:bg-teal-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Operar</a>
+
+                    <a href="#!" onclick="apiLogout()"
+                        class="text-gray-300 hover:bg-rose-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Logout</a>
+
+                </div>
+            </div>
+        </nav>
+
+
+
+        <div class=" grid grid-cols-2 grid-flow-row auto-rows-max h-full relative ">
+
+            <div id="dEnvia"
+                class="connectedSortable grid  auto-rows-max relative  bg-gradient-to-l from-gray-100 to-gray-600">
+
+                <div id="cellnex"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/cellnex.png" alt="cellnex" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Cellnex Telecom,
+                                S.A. (CLNX.MC)
+                            </div>
+                            <p class="mt-2 text-slate-500">Cellnex Telecom, S.A. opera infraestructura de
+                                telecomunicaciones
+                                inalámbricas a través de tres segmentos: Servicios de Infraestructura de
+                                Telecomunicaciones, Redes de
+                                Radiodifusión y Servicios de Red y Otros.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ferrovial"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/ferrovial.png" alt="ferrovial" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Ferrovial, S.A.
+                                (FER.MC)</div>
+                            <p class="mt-2 text-slate-500">Ferrovial, S.A., junto con sus filiales, opera como operador
+                                de
+                                infraestructuras y movilidad. La empresa se dedica al diseño y construcción de diversas
+                                obras públicas y
+                                privadas; y desarrollo, financiamiento y operación de autopistas de peaje.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="iberdrola"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/iberdrola.png" alt="iberdrola" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Iberdrola, S.A.
+                                (IBE.MC)</div>
+                            <p class="mt-2 text-slate-500">Iberdrola, S.A. se dedica a la generación, transmisión,
+                                distribución y
+                                suministro de energía eléctrica en España ya nivel internacional. Genera y comercializa
+                                energía eléctrica
+                                a partir de fuentes renovables, como la eólica terrestre y marina, hidráulica, solar
+                                fotovoltaica, ciclo
+                                combinado gas, nuclear y biomasa, así como mediante la instalación de baterías.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="inditex"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/inditex.png" alt="inditex" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Industria de
+                                Diseño Textil, S.A.
+                                (ITX.MC)</div>
+                            <p class="mt-2 text-slate-500">Industria de Diseño Textil, S.A. se dedica a la venta
+                                minorista y
+                                distribución en línea de prendas de vestir, calzado, complementos y productos textiles
+                                para el hogar a
+                                través de diversos conceptos comerciales.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bbva"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/bbva.png" alt="bbva" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Banco Bilbao
+                                Vizcaya Argentaria,
+                                S.A. (BBVA.MC)</div>
+                            <p class="mt-2 text-slate-500">Banco Bilbao Vizcaya Argentaria, S.A., junto con sus
+                                filiales, presta
+                                servicios de banca minorista, banca mayorista y gestión de activos. Ofrece cuentas
+                                corrientes; y depósitos
+                                a la vista, de ahorro, a la vista, a plazo, a plazo y subordinados.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="caixabank"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/caixabank.png" alt="caixabank" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">CaixaBank, S.A.
+                                (CABK.MC)</div>
+                            <p class="mt-2 text-slate-500">CaixaBank, S.A., junto con sus filiales, ofrece diversos
+                                productos bancarios
+                                y servicios financieros en España e internacionalmente. La compañía opera a través de
+                                los segmentos de
+                                Banca y Seguros, Inversiones de Capital y BPI.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="naturgy"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/naturgy.png" alt="naturgy" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Naturgy Energy
+                                Group, S.A.
+                                (NTGY.MC)</div>
+                            <p class="mt-2 text-slate-500">Naturgy Energy Group, S.A., junto con sus sociedades
+                                dependientes, se dedica
+                                al suministro, licuefacción, regasificación, transporte, almacenamiento, distribución y
+                                comercialización
+                                de gas natural. Opera a través de los segmentos de Gestión de Energía y Redes,
+                                Renovables y Nuevos
+                                Negocios, Abastecimiento y Descanso.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="repsol"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/repsol.png" alt="repsol" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Repsol, S.A.
+                                (REP.MC)</div>
+                            <p class="mt-2 text-slate-500">Repsol, S.A. opera como una compañía energética integrada a
+                                nivel mundial. Su
+                                segmento de Exploración y Producción se dedica a la exploración, desarrollo y producción
+                                de reservas de
+                                petróleo crudo y gas natural.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="santander"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/santander.png" alt="santander" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Banco Santander,
+                                S.A. (SAN.MC)
+                            </div>
+                            <p class="mt-2 text-slate-500">Banco Santander, S.A. ofrece diversos productos y servicios
+                                de banca
+                                minorista y comercial a particulares, pequeñas y medianas empresas y grandes empresas en
+                                todo el mundo.
+                            </p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="telefonica"
+                    class="max-w-md mx-auto mt-3 bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl envia">
+                    <div class="md:flex">
+                        <div class="md:shrink-0">
+                            <img src="../../imagenes/telefonica.png" alt="telefonica" class="m-auto">
+
+                        </div>
+                        <div class="p-8">
+                            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Telefónica, S.A.
+                                (TEF.MC)</div>
+                            <p class="mt-2 text-slate-500">Telefónica, S.A., junto con sus filiales, presta servicios de
+                                telecomunicaciones en Europa y Latinoamérica. Los servicios y productos móviles y
+                                relacionados de la
+                                compañía incluyen servicios de voz móvil, valor agregado, datos móviles e Internet,
+                                mayoristas,
+                                corporativos, roaming, inalámbricos fijos y troncales y buscapersonas.</p>
+                            <button
+                                class="hidden px-4 py-2 font-semibold text-sm bg-indigo-500 text-white rounded-md shadow-sm hover:scale-125 ease-in-out duration-300 delay-150 ">
+                                seleccionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div id="dRecive"
+                class="connectedSortable bg-gradient-to-r from-gray-100 to-gray-600 grid auto-rows-max relative">
+
+
+            </div>
+
+
+            <img id="flechaFlotante" src="../../imagenes/flecha.gif" alt="fecha">
+
+        </div>
+
+
+    </div>
+
+    <script src="dragdrop.js"></script>
+    <script src="routes.js"></script>
+    <script src="index.js"></script>
+    <script src="coockies.js"></script>
+    <script src="api.js"></script>
+    <script src="operar.js"></script>
+    <script src="graficos.js"></script>
+    <script src="validaciones.js"></script>
+
+    <script>
+        $('#flechaFlotante').ready(
+            setTimeout(function () {
+                checkCookie()
+            }, 100)
+        )
+        $('#listaEmpresas').ready(
+            setTimeout(function () {
+                checkCookie()
+            }, 100)
+        )
+
+    </script>
+
+
+</body>
+
+</html>
