@@ -1,4 +1,0 @@
-FROM nginx
-
-# Copiar el proyecto
-COPY ./web2.0 /var/www/html/

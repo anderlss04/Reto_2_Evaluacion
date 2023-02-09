@@ -1,4 +1,0 @@
-FROM nginx
-
-# Copiar el proyecto
-COPY ./nginx.conf /etc/nginx/nginx.conf:ro
