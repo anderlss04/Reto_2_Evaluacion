@@ -54,7 +54,7 @@ function escribirGrafico() {
                 label: empresas[0],
                 backgroundColor: "rgba(255, 0, 0, 0.5)",
                 borderColor: "hsl(360, 100%, 50%)",
-                color: 'green',
+                color: 'white',
                 pointRadius: 0,
                 pointBackgroundColor: "transparent",
                 pointBorderColor: "transparent",
@@ -74,7 +74,7 @@ function escribirGrafico() {
             maintainAspectRatio: true,
             legend: {
                 labels: {
-                    fontColor: 'black', // color de la leyenda
+                    fontColor: 'rgba(255, 0, 0, 0.5)', // color de la leyenda
                     fontSize: 14,
                     padding: 20
                 }
@@ -87,14 +87,14 @@ function escribirGrafico() {
             title: {
                 display: true,
                 text: `Precios de hoy de ${empresas[0]}`,
-                fontColor: 'black', // color del título
+                fontColor: 'rgba(255, 0, 0, 0.5)', // color del título
                 fontSize: 20,
                 padding: 20
             },
             scales: {
                 yAxes: [{
                     ticks: {
-                        fontColor: 'black' // color de las etiquetas de los ejes y
+                        fontColor: 'rgba(255, 0, 0, 0.5)' // color de las etiquetas de los ejes y
                     },
                     gridLines: {
                         color: 'rgba(255, 255, 255, 0.5)' // color de las líneas de los ejes
@@ -102,7 +102,7 @@ function escribirGrafico() {
                 }],
                 xAxes: [{
                     ticks: {
-                        fontColor: 'black' // color de las etiquetas de los ejes x
+                        fontColor: 'rgba(255, 0, 0, 0.5)' // color de las etiquetas de los ejes x
                     },
                     gridLines: {
                         color: 'rgba(255, 255, 255, 0.5)' // color de las líneas de los ejes x
@@ -111,9 +111,9 @@ function escribirGrafico() {
             },
             tooltips: {
                 backgroundColor: 'rgba(255, 255, 255, 0.8)', // color de fondo del tooltip
-                titleFontColor: 'black', // color del título del tooltip
+                titleFontColor: 'rgba(255, 0, 0, 0.5)', // color del título del tooltip
                 titleFontSize: 14,
-                bodyFontColor: 'black', // color del cuerpo del tooltip
+                bodyFontColor: 'rgba(255, 0, 0, 0.5)', // color del cuerpo del tooltip
                 bodyFontSize: 14,
                 xPadding: 10,
                 yPadding: 10,

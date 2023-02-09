@@ -54,7 +54,7 @@ function escribirGrafico() {
                 label: empresas[0],
                 backgroundColor: "rgba(255, 0, 0, 0.5)",
                 borderColor: "hsl(360, 100%, 50%)",
-                color: 'green',
+                color: 'white',
                 pointRadius: 0,
                 pointBackgroundColor: "transparent",
                 pointBorderColor: "transparent",

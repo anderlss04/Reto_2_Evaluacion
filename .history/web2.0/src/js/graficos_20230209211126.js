@@ -53,8 +53,8 @@ function escribirGrafico() {
             {
                 label: empresas[0],
                 backgroundColor: "rgba(255, 0, 0, 0.5)",
-                borderColor: "hsl(360, 100%, 50%)",
-                color: 'green',
+                borderColor: "hsl(180, 100%, 50%)",
+                color: 'white',
                 pointRadius: 0,
                 pointBackgroundColor: "transparent",
                 pointBorderColor: "transparent",
@@ -74,7 +74,7 @@ function escribirGrafico() {
             maintainAspectRatio: true,
             legend: {
                 labels: {
-                    fontColor: 'black', // color de la leyenda
+                    fontColor: 'black',
                     fontSize: 14,
                     padding: 20
                 }
@@ -87,33 +87,33 @@ function escribirGrafico() {
             title: {
                 display: true,
                 text: `Precios de hoy de ${empresas[0]}`,
-                fontColor: 'black', // color del título
+                fontColor: 'black',
                 fontSize: 20,
                 padding: 20
             },
             scales: {
                 yAxes: [{
                     ticks: {
-                        fontColor: 'black' // color de las etiquetas de los ejes y
+                        fontColor: 'black'
                     },
                     gridLines: {
-                        color: 'rgba(255, 255, 255, 0.5)' // color de las líneas de los ejes
+                        color: 'rgba(255, 255, 255, 0.5)'
                     }
                 }],
                 xAxes: [{
                     ticks: {
-                        fontColor: 'black' // color de las etiquetas de los ejes x
+                        fontColor: 'black'
                     },
                     gridLines: {
-                        color: 'rgba(255, 255, 255, 0.5)' // color de las líneas de los ejes x
+                        color: 'rgba(255, 255, 255, 0.5)'
                     }
                 }]
             },
             tooltips: {
-                backgroundColor: 'rgba(255, 255, 255, 0.8)', // color de fondo del tooltip
-                titleFontColor: 'black', // color del título del tooltip
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                titleFontColor: 'black',
                 titleFontSize: 14,
-                bodyFontColor: 'black', // color del cuerpo del tooltip
+                bodyFontColor: 'black',
                 bodyFontSize: 14,
                 xPadding: 10,
                 yPadding: 10,
@@ -129,14 +129,13 @@ function escribirGrafico() {
                 legend: {
                     display: true,
                     labels: {
-                        color: 'rgb(255, 99, 132)' // color de la leyenda
+                        color: 'rgb(255, 99, 132)'
                     },
                     
                 }
             },
         }
     };
-    
 
 
 

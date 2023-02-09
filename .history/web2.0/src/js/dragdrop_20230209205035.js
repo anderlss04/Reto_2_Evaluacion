@@ -20,10 +20,9 @@ interact('.envia')
 
   interact('#dRecive').dropzone({
     accept: '.envia',
-    overlap: 10,
+    overlap: 0.75,
     ondrop: function (event) {
       event.relatedTarget.style.backgroundColor = 'lightblue';
-      event.relatedTarget.style.transform = '';
       event.relatedTarget.setAttribute('data-x', 0);
       event.relatedTarget.setAttribute('data-y', 0);
       event.target.appendChild(event.relatedTarget);
@@ -32,10 +31,9 @@ interact('.envia')
 
     interact('#dEnvia').dropzone({
     accept: '.envia',
-    overlap: 10,
+    overlap: 3,
     ondrop: function (event) {
         event.relatedTarget.style.backgroundColor = 'white';
-        event.relatedTarget.style.transform = '';
         event.relatedTarget.setAttribute('data-x', 0);
         event.relatedTarget.setAttribute('data-y', 0);
         event.target.appendChild(event.relatedTarget);

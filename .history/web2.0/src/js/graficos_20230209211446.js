@@ -54,7 +54,7 @@ function escribirGrafico() {
                 label: empresas[0],
                 backgroundColor: "rgba(255, 0, 0, 0.5)",
                 borderColor: "hsl(360, 100%, 50%)",
-                color: 'green',
+                color: 'white',
                 pointRadius: 0,
                 pointBackgroundColor: "transparent",
                 pointBorderColor: "transparent",
@@ -94,7 +94,7 @@ function escribirGrafico() {
             scales: {
                 yAxes: [{
                     ticks: {
-                        fontColor: 'black' // color de las etiquetas de los ejes y
+                        fontColor: 'rgba(255, 0, 0, 0.5)' // color de las etiquetas de los ejes y
                     },
                     gridLines: {
                         color: 'rgba(255, 255, 255, 0.5)' // color de las líneas de los ejes
