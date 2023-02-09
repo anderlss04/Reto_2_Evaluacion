@@ -40,7 +40,7 @@ function crearEmpresas() {
           <div class="p-6">
             <h5 class="text-sky-900 text-xl font-medium mb-2">${empresa.toUpperCase()}</h5>
             <p class="text-gray-700 text-base mb-4">
-              Precio: <span class="text-rose-800 text-xl underline decoration-wavy font-mono oldstyle-nums"  id="precio${empresa}">0</span>
+              Precio: <span class="text-rose-800"  id="precio${empresa}">${datos}>0</span>
             </p>
             <a href="#!" onclick="router('grafico','${empresa}');pararSetInterval()">
             <button id="${empresa}"  type="button" class=" inline-block px-6 py-2.5 bg-sky-600 text-white font-medium text-xl leading-tight uppercase rounded shadow-md hover:bg-sky-700 hover:shadow-lg focus:bg-sky-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-800 active:shadow-lg transition duration-150 ease-in-out">Grafico</button>
@@ -71,9 +71,13 @@ async function pedir(empresas, fecha, hora) {
     datos = await apiPeticiones(empresas, fecha, hora);
 
     datos.Empresas.map((empresa) => {
-      let preioViejo = document.getElementById(`precio${empresa.empresa}`).innerText;
+      let preioViejo = Number(document.getElementById(`precio${empresa.empresa}`).text);
 
-      if (Number(empresa.cierre) > Number(preioViejo)) {
+      constructor(params) {
+        
+      }
+
+      if (Number(empresa.cierre) > preioViejo) {
         document.getElementById(`precio${empresa.empresa}`).innerHTML = `${empresa.cierre?empresa.cierre:0}`;
         document.getElementById(`precio${empresa.empresa}`).style.color = 'green';
       } else if (Number(empresa.cierre) < preioViejo) {
@@ -85,7 +89,7 @@ async function pedir(empresas, fecha, hora) {
       }
 
     });
-  }, 8000);
+  }, 5000);
 
 }
 

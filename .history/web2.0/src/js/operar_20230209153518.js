@@ -85,7 +85,7 @@ async function pedir(empresas, fecha, hora) {
       }
 
     });
-  }, 8000);
+  }, 000);
 
 }
 

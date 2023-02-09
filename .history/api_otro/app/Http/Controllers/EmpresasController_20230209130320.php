@@ -64,35 +64,31 @@ class EmpresasController extends Controller
                         ->max('Hora');
                 }
 
-                $todos = [];
-                foreach ($empresas as $empresa) {
-                    /* Obteniendo el máximo de horas de la tabla EmpresasDiario. */
-                    if (!empty($hora)) {
-                        $hora = EmpresasDiario::query()
-                        ->where('Empresa', $empresa)
-                        ->when($fecha != null, function ($query) use ($fecha) {
-                            return $query->where('Fecha', '>=', $fecha);
-                        })
-                        ->max('Hora');
+                $todos = EmpresasDiario::query()
+                    ->whereIn('Empresa', $empresas)
+                    ->where('Fecha', '>=', $fecha)
+                    ->where(function ($query) use ($hora) {
+                        if (!empty($hora)) {
+                            $query->where('Hora', '=', $hora);
+                        } else {
+                            $query->where('Hora', EmpresasDiario::query()->whereIn('Empresa', $empresas)->where('Fecha', '>=', $fecha)->max('Hora'));
+                        }
+                    })
+                    ->get();
 
-                        $registros = EmpresasDiario::query()
-                            ->where('Empresa', $empresa)
-                            ->where('Fecha', '>=', $fecha)
-                            ->where('Hora', $hora)
-                            ->get();
 
-                        $todos = array_merge($todos, $registros->toArray());
-                    }else{
-                        $registros = EmpresasDiario::query()
-                            ->where('Empresa', $empresa)
-                            ->where('Fecha', '>=', $fecha)
-                            ->get();
+                // $todos = EmpresasDiario::query()
+                //     ->whereIn('Empresa', $empresas)
+                //     ->when($fecha != null, function ($query) use ($fecha) {
+                //         return $query->where('Fecha', '>=', $fecha);
+                //     })
+                //     ->when($fecha != null, function ($query) use ($fecha) {
+                //         $hora = $query->max('Hora');
+                //         return $query->where('Hora', '>=', $hora);
+                //     })
+                //     ->get();
 
-                        $todos = array_merge($todos, $registros->toArray());
-                    }
-                }
 
-                $todos = collect($todos);
             } else {
                 $todos = Empresas::query()
                     ->whereIn('Empresa', $empresas)

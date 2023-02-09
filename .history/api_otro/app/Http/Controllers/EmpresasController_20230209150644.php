@@ -78,17 +78,21 @@ class EmpresasController extends Controller
                         $registros = EmpresasDiario::query()
                             ->where('Empresa', $empresa)
                             ->where('Fecha', '>=', $fecha)
-                            ->where('Hora', $hora)
-                            ->get();
-
-                        $todos = array_merge($todos, $registros->toArray());
-                    }else{
-                        $registros = EmpresasDiario::query()
+                            ->where('Hora', $$registros = EmpresasDiario::query()
                             ->where('Empresa', $empresa)
                             ->where('Fecha', '>=', $fecha)
+                            ->where('Hora', $ultima_hora)
+                            ->get();
+
+                        $todos = array_merge($todos, $registros->toArray());)
                             ->get();
 
                         $todos = array_merge($todos, $registros->toArray());
+                    }
+                    
+
+                    if ($ultima_hora != null) {
+                        
                     }
                 }
 

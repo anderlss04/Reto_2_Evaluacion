@@ -40,15 +40,15 @@ class EmpresasController extends Controller
                     ->max('Fecha');
                 $maxFecha = new DateTime($maxFecha);
 
-                if ($fecha > $maxFecha) {
+                if($fecha > $maxFecha){
                     $dias_diferencia = date_diff($maxFecha, $hoy);
                     $fecha = $maxFecha;
-                } else {
+                }else{
                     $dias_diferencia = date_diff($fecha, $hoy);
                 }
 
 
-
+                
                 $dias_diferencia = $dias_diferencia->format('%a');
             } else {
                 $dias_diferencia = null;
@@ -58,43 +58,26 @@ class EmpresasController extends Controller
 
                 /* Obteniendo el máximo de horas de la tabla EmpresasDiario. */
                 if (!empty($hora)) {
-                    $hora = EmpresasDiario::query()
+                    $hora = EmpresasDiario::
+                    query()
                         ->whereIn('Empresa', $empresas)
                         ->where('Fecha', '>=', $fecha)
                         ->max('Hora');
                 }
 
-                $todos = [];
-                foreach ($empresas as $empresa) {
-                    /* Obteniendo el máximo de horas de la tabla EmpresasDiario. */
-                    if (!empty($hora)) {
-                        $hora = EmpresasDiario::query()
-                        ->where('Empresa', $empresa)
-                        ->when($fecha != null, function ($query) use ($fecha) {
-                            return $query->where('Fecha', '>=', $fecha);
-                        })
-                        ->max('Hora');
-
-                        $registros = EmpresasDiario::query()
-                            ->where('Empresa', $empresa)
-                            ->where('Fecha', '>=', $fecha)
-                            ->where('Hora', $hora)
-                            ->get();
-
-                        $todos = array_merge($todos, $registros->toArray());
-                    }else{
-                        $registros = EmpresasDiario::query()
-                            ->where('Empresa', $empresa)
-                            ->where('Fecha', '>=', $fecha)
-                            ->get();
-
-                        $todos = array_merge($todos, $registros->toArray());
-                    }
-                }
-
-                $todos = collect($todos);
+                $todos = EmpresasDiario::query()
+                    ->whereIn('Empresa', $empresas)
+                    ->when($fecha != null && $hora != null, function ($query) use ($fecha, $hora) {
+                        return $query->where('Fecha', '>=', $fecha)
+                            ->where('Hora', '>=', $hora);
+                    })
+                    ->when($fecha != null && $hora == null, function ($query) use ($fecha) {
+                        return $query->where('Fecha', '>=', $fecha);
+                    })
+                    ->get();
             } else {
-                $todos = Empresas::query()
+                $todos = Empresas::
+                query()
                     ->whereIn('Empresa', $empresas)
                     ->when($fecha != null, function ($query) use ($fecha) {
                         return $query->where('Fecha', '>=', $fecha);
@@ -114,3 +97,8 @@ class EmpresasController extends Controller
         }
     }
 }
+
+Este controlador de PHP Laravel se encarga de manejar las solicitudes a la API. La función index se encarga de obtener los datos de una de dos tablas, EmpresasDiario o Empresas, dependiendo de la fecha especificada en la solicitud. Si la fecha es dentro de los últimos 7 días, se obtendrán los datos de la tabla EmpresasDiario, en caso contrario se obtendrán los datos de la tabla Empresas.
+El controlador se protege con el middleware "auth:api" que garantiza que solo usuarios autenticados puedan acceder a los datos.
+La fecha y la hora especificadas en la solicitud se convierten en un objeto de fecha y se utilizan para calcular la diferencia entre la fecha actual y la fecha especificada en la solicitud. Si la fecha especificada es más reciente que la fecha máxima en la tabla EmpresasDiario, se utiliza la fecha máxima en su lugar.
+El método devuelve una respuesta JSON con el estado de la solicitud y los datos. En caso de error, se devuelve una respuesta con un estado de error y un mensaje de error.

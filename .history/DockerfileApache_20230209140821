@@ -5,7 +5,7 @@ COPY ./web2.0 /usr/local/apache2/htdocs/
 
 # ENV HOST_IP="10.10.17.222"
 
-ENV HOST_IP="192.168.1.140"
+ENV HOST_IP="192.168.1.141"
 
 RUN sed -i "s/localhost/$HOST_IP/g" /usr/local/apache2/htdocs/src/js/api.js
 

@@ -66,26 +66,18 @@ class EmpresasController extends Controller
 
                 $todos = [];
                 foreach ($empresas as $empresa) {
-                    /* Obteniendo el máximo de horas de la tabla EmpresasDiario. */
-                    if (!empty($hora)) {
-                        $hora = EmpresasDiario::query()
+                    $ultima_hora = EmpresasDiario::query()
                         ->where('Empresa', $empresa)
                         ->when($fecha != null, function ($query) use ($fecha) {
                             return $query->where('Fecha', '>=', $fecha);
                         })
                         ->max('Hora');
 
+                    if ($ultima_hora != null) {
                         $registros = EmpresasDiario::query()
                             ->where('Empresa', $empresa)
                             ->where('Fecha', '>=', $fecha)
-                            ->where('Hora', $hora)
-                            ->get();
-
-                        $todos = array_merge($todos, $registros->toArray());
-                    }else{
-                        $registros = EmpresasDiario::query()
-                            ->where('Empresa', $empresa)
-                            ->where('Fecha', '>=', $fecha)
+                            ->where('Hora', $ultima_hora)
                             ->get();
 
                         $todos = array_merge($todos, $registros->toArray());
@@ -93,6 +85,11 @@ class EmpresasController extends Controller
                 }
 
                 $todos = collect($todos);
+
+
+
+
+
             } else {
                 $todos = Empresas::query()
                     ->whereIn('Empresa', $empresas)
