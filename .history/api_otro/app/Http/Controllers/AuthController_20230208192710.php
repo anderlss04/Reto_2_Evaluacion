@@ -87,12 +87,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Toma el token de la solicitud y luego usa el método `Auth::refresh()` para generar un nuevo
-     * token
-     * 
-     * @return El token está siendo devuelto.
-     */
     public function refresh()
     {
         $token = Auth::refresh();

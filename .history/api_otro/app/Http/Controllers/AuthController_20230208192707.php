@@ -73,26 +73,15 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Cierra la sesión del usuario y devuelve una respuesta JSON
-     * 
-     * @return Una respuesta JSON con un estado y un mensaje.
-     */
-    public function logout()
-    {
-        Auth::logout();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully logged out',
-        ]);
-    }
+    // public function logout()
+    // {
+    //     Auth::logout();
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => 'Successfully logged out',
+    //     ]);
+    // }
 
-    /**
-     * Toma el token de la solicitud y luego usa el método `Auth::refresh()` para generar un nuevo
-     * token
-     * 
-     * @return El token está siendo devuelto.
-     */
     public function refresh()
     {
         $token = Auth::refresh();

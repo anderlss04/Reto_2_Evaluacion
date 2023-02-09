@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Facade;
 
-
 return [
 
     /*
@@ -199,8 +198,6 @@ return [
         /*
          * Terceros
          */
-        L5Swagger\L5SwaggerServiceProvider::class,
-
         
 
     ],

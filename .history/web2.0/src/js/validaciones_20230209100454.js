@@ -31,8 +31,7 @@ function validacionLogin() {
 
 }
 
-function validacionRegistro() {
-    
+function validacionRegistro(event) {
     $('#registrationForm').validate({
         errorPlacement: function(error, element) {
             error.insertBefore(element);
