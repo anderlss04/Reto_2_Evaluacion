@@ -50,7 +50,3 @@ Esto levantará el entorno completo:
 - Aplicación frontend en http://localhost:3000
 - API REST en http://localhost:3001
 - Servidor de BBDD MySQL
-
-## Licencia
-
-[MIT](https://choosealicense.com/licenses/mit/)
